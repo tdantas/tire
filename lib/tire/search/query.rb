@@ -75,6 +75,13 @@ module Tire
         @value
       end
 
+      def nested(options={}, &block)
+        @nested ||= Query.new(&block)
+        @value[:nested] = options
+        @value[:nested] = @value[:nested].update( { :query => @nested.to_hash } )
+        @value
+      end
+
       def all
         @value = { :match_all => {} }
         @value
